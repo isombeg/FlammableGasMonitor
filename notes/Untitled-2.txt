@@ -1,0 +1,28 @@
+double calc_y(gas pres_Gas, double pressure, double temp){
+  //Function calculates y
+  
+  return (1/pressure) * pow(10, pres_Gas.A - (pres_Gas.B / (temp + pres_Gas.C)));
+}
+
+double calc_z(gas pres_Gas, double pressure, double temp){
+  //Function calculates z
+  
+  return
+    -0.101 -
+    0.36* temp / pres_Gas.Tc +
+    1.3868 * pow(temp/pres_Gas.Tc - 0.919, 0.5) +
+    (0.021 + (0.04275/((temp/pres_Gas.Tc)-0.65)))*(pressure/pres_Gas.Pc) +
+    (1 - (-0.101 - 0.36*temp/pres_Gas.Tc + 1.3868 * pow((temp/pres_Gas.Tc) - 0.919, 0.5) * exp(-pressure/pres_Gas.Pc*(0.6222 - 0.224*(temp/pres_Gas.Tc) +
+    ((0.0657/((temp/pres_Gas.Tc)-0.85))-0.037)*(pressure/pres_Gas.Pc) + 
+    0.32*exp(-19.53*((temp/pres_Gas.Tc)-1))*(pow(pressure/pres_Gas.Pc,4))-
+    (0.122*(exp(-11.3*((temp/pres_Gas.Tc)-1))))*pow((pressure/pres_Gas.Pc)/10, 4)))));
+    
+}
+
+double calc_yLow(gas pres_Gas, double volume, double pressure, double temp){
+  return pres_Gas.lowerExpLim * 100 * calc_z(pres_Gas, pressure, temp)  / volume;
+}
+
+double calc_yHight(gas pres_Gas, double volume, double pressure, double temp){
+  return pres_Gas.upperExpLim * 100 * calc_z(pres_gas, pressure, temp) / volume;
+}
